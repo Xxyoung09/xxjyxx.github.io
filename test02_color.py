@@ -10,6 +10,8 @@ cv2.imshow("red", image[:, :, 2])
 
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 cv2.imshow("gray", gray)
+print(image)
 
 cv2.waitKey()
+#cv2.destroyWindow()
 

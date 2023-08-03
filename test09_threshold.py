@@ -13,4 +13,4 @@ cv2.imshow("adaptive", binary_adaptive)
 cv2.imshow("otsu", binary_otsu)
 
 cv2.waitKey()
-
+ 

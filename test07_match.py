@@ -29,7 +29,6 @@ for p1 in zip(*locations1[::-1]):
     x2, y2 = x1 + w1, y1 + h1
     cv2.rectangle(image, (x1, y1), (x2, y2), (255, 255, 255), 2)
 
-
 cv2.imshow("image", image)
 #cv2.imshow("gray",gray)
 cv2.waitKey()
