@@ -1,10 +1,11 @@
 import cv2
 import numpy as np
 #读取图片
-image =cv2.imread("poker.jpg")
+image =cv2.imread("/home/jy/opencv/pic/poker.jpg")
 
 #转为灰度图
 gray  = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+
 template =gray[75:105, 235:265] #方块
 h,w=template.shape[:2]
 

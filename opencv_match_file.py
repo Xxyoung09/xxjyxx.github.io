@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 # 读取图片
-image = cv2.imread("poker.jpg")
+image = cv2.imread("/home/jy/opencv/pic/poker.jpg")
 
 # 转为灰度图
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -29,10 +29,11 @@ with open("matches.txt", "w") as f:
         bottom = (pt[0] + w, pt[1] + h)
         cv2.rectangle(image, pt, bottom, (0, 0, 255), 2)
 
-# 显示带标注的图像
-cv2.imshow("image", image)
-cv2.waitKey()
 
 # 输出匹配结果文件
 with open("matches.txt", "r") as f:
     print(f.read())
+    
+# 显示带标注的图像
+cv2.imshow("image", image)
+cv2.waitKey()
