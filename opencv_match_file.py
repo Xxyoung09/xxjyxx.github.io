@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+
 def find_template_matches(image_path,template_pos,threshold,output_file):
     # 读取图片
     image = cv2.imread(image_path)
