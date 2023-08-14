@@ -7,8 +7,6 @@ from PIL import ImageGrab
 # 图像对比函数
 def compare_images(image1, image2):
 
-
-
     #width1,height1=image1.size
     #width2,height2=image2.size
     
@@ -28,12 +26,19 @@ def compare_images(image1, image2):
         _, threshold = cv2.threshold(gray_diff, 0, 255, cv2.THRESH_BINARY)
 
         # 统计非零像素的数量
+        num_pixel =threshold.size
         num_diff_pixels = cv2.countNonZero(threshold)
+        num_same_pixels = num_pixel-num_diff_pixels
 
         if num_diff_pixels == 0:
-            print("两个图像完全相同")
+            print("两个图像完全相同，相同的像素个数：",num_same_pixels)
         else:
-            print("两个图像不完全相同")
+            #cv2.imshow("difference",difference)
+            cv2.imwrite("difference.png",difference)
+            cv2.imwrite("gray_diff.png",gray_diff)
+            print("两个图像不完全相同  不同像素数量:{}  相同像素数量为{}".format(num_diff_pixels,num_same_pixels))
+            cv2.waitKey(100)
+
     else:
         print("两个图像尺寸不同")
 
@@ -47,7 +52,7 @@ if __name__ == "__main__":
     #截屏次数
     num_screenshot=5
     # 图像对比
-    tem_image = cv2.imread('/home/jy/opencv/pic/cross.png')
+    tem_image = cv2.imread('/home/jy/opencv/pic/tem_image.png')
     screenshot = cv2.imread('/home/jy/opencv/screenshot.png')
    
     for i in range(num_screenshot):
