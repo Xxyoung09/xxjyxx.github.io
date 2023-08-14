@@ -54,7 +54,8 @@ def batch_find_template_matches(image_dir,template_path,threshold,output_file_di
         
 if __name__ == "__main__":
     image_dir = "/home/jy/opencv/pic/"
-    template_path ="/home/jy/opencv/pic/poker_template.jpg"
+    #template_path ="/home/jy/opencv/pic/poker_template.jpg"
+    template_path ="/home/jy/opencv/pic/poker_tem.jpg"
     threshold = 0.90
     output_file_dir = "/home/jy/opencv/check_result"
     batch_find_template_matches(image_dir,template_path,threshold,output_file_dir)

@@ -2,11 +2,11 @@ import cv2
 import numpy as np
 
 # 加载目标图片（模板）
-template = cv2.imread('/home/jy/xxjyxx.github.io/pic/image1.png', 0)
+template = cv2.imread('/home/jy/opencv/pic/cross.png', 0)
 w, h = template.shape[::-1]
 
 # 打开视频文件
-cap = cv2.VideoCapture('/home/jy/xxjyxx.github.io/video/video.mp4')
+cap = cv2.VideoCapture('/home/jy/opencv/video/cross.mp4')
 
 while(cap.isOpened()):
     flage, frame = cap.read()
@@ -17,7 +17,7 @@ while(cap.isOpened()):
 
         # 使用模板匹配查找图像中的相同元素
         res = cv2.matchTemplate(gray_frame, template, cv2.TM_CCOEFF_NORMED)
-        threshold = 0.7
+        threshold = 0.6
         loc = np.where(res >= threshold)
 
         for pt in zip(*loc[::-1]):
