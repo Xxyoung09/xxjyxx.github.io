@@ -2,7 +2,7 @@ import cv2
 import time
 from PIL import ImageGrab
 import numpy as np
-
+import win32gui
 
 # 图像对比函数
 def compare_images(image1, image2):
@@ -47,18 +47,25 @@ if __name__ == "__main__":
     #等待时间
     wait_time=1
     # 指定截图区域的坐标
-    left = 12
-    top =  387
-    right =  652
-    bottom = 867
+    #left = 12
+    #top =  387
+    #right =  652
+    #bottom = 867
+    window_name="vwr::CDesktopWin"
+    window_nd=win32gui.FindWindow(window_name,None)
+
+    x1,y1,x2,y2=win32gui.GetWindowRect(window_nd)
+    rect=(x1,y1,x2,y2)
     #截屏次数
     num_screenshot=5
     # 图像对比
-    tem_image = cv2.imread('/home/jy/opencv/pic/cross_tem.png')
-    screenshot = cv2.imread('/home/jy/opencv/screenshot.png')
+    tem_image = cv2.imread('cross_tem.png')
+    #screenshot = cv2.imread('/home/jy/opencv/screenshot.png')
    
     for i in range(num_screenshot):
-        screenshot=ImageGrab.grab(bbox=(left,top,right,bottom))
+        #screenshot=ImageGrab.grab(bbox=(left,top,right,bottom))
+        screenshot=ImageGrab.grab(bbox=(rect))
         screenshot.save("screenshot.png")
+        screenshot = cv2.imread('screenshot.png')
         compare_images(tem_image, screenshot)
         time.sleep(wait_time)
