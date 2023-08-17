@@ -2,17 +2,14 @@ import cv2
 import time
 from PIL import ImageGrab
 import numpy as np
-import win32gui
+import logging
+#import win32gui
 
 # 图像对比函数
-def compare_images(image1, image2):
-    #width1,height1=image1.size
-    #width2,height2=image2.size
+def compare_images(image1, image2,time_stamp):
 
     np_image1=np.array(image1)
     np_image2=np.array(image2)
-    #确保两个图像具有相同的尺寸
-    #if width1==width2 and height1==height2:
 
     if np_image1.shape== np_image2.shape:
         # 逐像素比较两个图像
@@ -31,12 +28,20 @@ def compare_images(image1, image2):
         num_same_pixels = num_pixel-num_diff_pixels
 
         if num_diff_pixels == 0:
+            logging.basicConfig(filename='image_compare_log',level=logging.INFO)
+            logging.info(f"截图时间 {time_stamp}两个图像完全相同，相同的像素个数：{num_same_pixels}")
             print("两个图像完全相同，相同的像素个数：",num_same_pixels)
+            #cv2.imwrite("difference.png",difference)
+            #cv2.imwrite("gray_diff.png",gray_diff)
         else:
             #cv2.imshow("difference",difference)
-            cv2.imwrite("difference.png",difference)
-            cv2.imwrite("gray_diff.png",gray_diff)
+            #cv2.imwrite("difference.png",difference)
+            gray_diff_name = f"gray_diff_{timestamp}.png"
+            gray_diff_path = "test_image/" + gray_diff_name 
+            cv2.imwrite(gray_diff_path,gray_diff)
             print("两个图像不完全相同  不同像素数量:{}  相同像素数量为{}".format(num_diff_pixels,num_same_pixels))
+            logging.basicConfig(filename='image_compare_log',level=logging.INFO)
+            logging.info(f"截图时间：{time_stamp}两个图像不完全相同，不同的像素数量 {num_diff_pixels} 相同的像素个数：{num_same_pixels} ")
             cv2.waitKey(100)
 
     else:
@@ -45,27 +50,39 @@ def compare_images(image1, image2):
 
 if __name__ == "__main__":
     #等待时间
-    wait_time=1
-    # 指定截图区域的坐标
-    #left = 12
-    #top =  387
-    #right =  652
-    #bottom = 867
-    window_name="vwr::CDesktopWin"
-    window_nd=win32gui.FindWindow(window_name,None)
-
-    x1,y1,x2,y2=win32gui.GetWindowRect(window_nd)
-    rect=(x1,y1,x2,y2)
+    wait_time=0.05
+    #指定截图区域的坐标
+    left = 13
+    top =  388
+    right =  653
+    bottom = 868
+    #窗口截图 已弃用
+    #window_name="vwr::CDesktopWin"
+    #window_nd=win32gui.FindWindow(window_name,None)
+    #x1,y1,x2,y2=win32gui.GetWindowRect(window_nd)
+    #rect=(x1,y1,x2,y2)
+    rect1=(left,top,right,bottom)
     #截屏次数
-    num_screenshot=5
-    # 图像对比
-    tem_image = cv2.imread('cross_tem.png')
+    num_screenshot=100
+    
+    # 图像对比模板
+    tem_image = cv2.imread('cross_tem_695.png')
     #screenshot = cv2.imread('/home/jy/opencv/screenshot.png')
    
     for i in range(num_screenshot):
-        #screenshot=ImageGrab.grab(bbox=(left,top,right,bottom))
-        screenshot=ImageGrab.grab(bbox=(rect))
-        screenshot.save("screenshot.png")
-        screenshot = cv2.imread('screenshot.png')
-        compare_images(tem_image, screenshot)
+        #时间戳
+        timestamp= time.strftime("%Y%m%d%H%M%S",time.localtime())
+        #截图命名
+        screenshot_filename=f"screenshot_{timestamp}.png"
+        #保存路径
+        file_path="test_image/"+ screenshot_filename
+        screenshot=ImageGrab.grab(bbox=(rect1))
+        screenshot.save(file_path)
+        #screenshot.save(screenshot_filename)
+
+        #读取截图并对比
+        screenshot_check = cv2.imread(file_path)
+        #screenshot_check = cv2.imread(screenshot_filename)
+        compare_images(screenshot_check,tem_image,timestamp)
         time.sleep(wait_time)
+     
