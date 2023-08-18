@@ -5,6 +5,10 @@ import numpy as np
 import logging
 #import win32gui
 
+def set_logging():
+    logging.basicConfig(filename='image_compare_log',level=logging.INFO)
+
+
 # 图像对比函数
 def compare_images(image1, image2,time_stamp):
     #width1,height1=image1.size
@@ -32,7 +36,6 @@ def compare_images(image1, image2,time_stamp):
         num_same_pixels = num_pixel-num_diff_pixels
 
         if num_diff_pixels == 0:
-            logging.basicConfig(filename='image_compare_log',level=logging.INFO)
             logging.info(f"截图时间 {time_stamp}两个图像完全相同，相同的像素个数：{num_same_pixels}")
             print("两个图像完全相同，相同的像素个数：",num_same_pixels)
             #cv2.imwrite("difference.png",difference)
@@ -53,6 +56,7 @@ def compare_images(image1, image2,time_stamp):
 
 
 if __name__ == "__main__":
+    set_logging()
     #等待时间
     wait_time=0.5
     #指定截图区域的坐标

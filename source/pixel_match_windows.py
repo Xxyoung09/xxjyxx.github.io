@@ -5,11 +5,19 @@ import numpy as np
 import logging
 #import win32gui
 
+def set_logging():
+    logging.basicConfig(filename='image_compare_log',level=logging.INFO)
+
+
 # 图像对比函数
 def compare_images(image1, image2,time_stamp):
+    #width1,height1=image1.size
+    #width2,height2=image2.size
 
     np_image1=np.array(image1)
     np_image2=np.array(image2)
+    #确保两个图像具有相同的尺寸
+    #if width1==width2 and height1==height2:
 
     if np_image1.shape== np_image2.shape:
         # 逐像素比较两个图像
@@ -28,7 +36,6 @@ def compare_images(image1, image2,time_stamp):
         num_same_pixels = num_pixel-num_diff_pixels
 
         if num_diff_pixels == 0:
-            logging.basicConfig(filename='image_compare_log',level=logging.INFO)
             logging.info(f"截图时间 {time_stamp}两个图像完全相同，相同的像素个数：{num_same_pixels}")
             print("两个图像完全相同，相同的像素个数：",num_same_pixels)
             #cv2.imwrite("difference.png",difference)
@@ -49,21 +56,24 @@ def compare_images(image1, image2,time_stamp):
 
 
 if __name__ == "__main__":
+    set_logging()
     #等待时间
-    wait_time=0.05
+    wait_time=0.5
     #指定截图区域的坐标
     left = 13
     top =  388
     right =  653
     bottom = 868
+    
     #窗口截图 已弃用
     #window_name="vwr::CDesktopWin"
     #window_nd=win32gui.FindWindow(window_name,None)
     #x1,y1,x2,y2=win32gui.GetWindowRect(window_nd)
     #rect=(x1,y1,x2,y2)
     rect1=(left,top,right,bottom)
+
     #截屏次数
-    num_screenshot=100
+    num_screenshot=5
     
     # 图像对比模板
     tem_image = cv2.imread('cross_tem_695.png')
@@ -85,4 +95,4 @@ if __name__ == "__main__":
         #screenshot_check = cv2.imread(screenshot_filename)
         compare_images(screenshot_check,tem_image,timestamp)
         time.sleep(wait_time)
-     
+        
